@@ -5,10 +5,25 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
         spawn_control = 0
     }
 })
+function hurt_time () {
+    timer.background(function () {
+        if (hurt == 0) {
+            info.changeLifeBy(-1)
+            hurt = 1
+            pause(1000)
+            hurt = 0
+        }
+    })
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    hurt_time()
+})
 let mySprite2: Sprite = null
 let next_lvl = 0
 let level = 0
 let spawn_control = 0
+let hurt = 0
+hurt = 0
 spawn_control = 0
 level = 0
 next_lvl = 1
@@ -253,8 +268,11 @@ forever(function () {
                 `, SpriteKind.Enemy)
             mySprite2.setScale(0.6, ScaleAnchor.Middle)
             tiles.placeOnTile(mySprite2, tiles.getTileLocation(19, 42))
-            mySprite2.follow(mySprite, 50)
+            mySprite2.follow(mySprite, 30)
             spawn_control = 1
+        }
+        if (controller.B.isPressed()) {
+        	
         }
         mySprite2.ay = 1000
         mySprite.ay = 1000
